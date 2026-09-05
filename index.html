@@ -632,6 +632,11 @@
       </div>
 
       <div class="map-controls">
+		  <button class="map-btn fullscreen-btn" onclick="toggleMapFullscreen()" title="Toggle Fullscreen">
+		    <svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor">
+		      <path d="M396.797 274.609c-11.797 0-21.336 9.539-21.336 21.336v68.188L280.992 269.664c-8.344-8.328-21.844-8.328-30.172 0-8.328 8.328-8.328 21.844 0 30.172l94.469 94.469h-68.188c-11.797 0-21.336 9.539-21.336 21.336 0 11.781 9.539 21.336 21.336 21.336h119.703c11.781 0 21.336-9.555 21.336-21.336V295.945c-.001-11.797-9.556-21.336-21.343-21.336zM396.797 75.023H277.094c-11.797 0-21.336 9.539-21.336 21.336 0 11.781 9.539 21.336 21.336 21.336h68.188l-94.469 94.469c-8.328 8.328-8.328 21.844 0 30.172 4.156 4.156 9.609 6.25 15.078 6.25s10.922-2.094 15.078-6.25l94.469-94.469v68.188c0 11.781 9.539 21.336 21.336 21.336 11.781 0 21.336-9.555 21.336-21.336V96.359c0-11.797-9.555-21.336-21.336-21.336zM115.203 237.391h119.703c11.781 0 21.336-9.539 21.336-21.336 0-11.797-9.555-21.336-21.336-21.336h-68.188l94.469-94.469c8.328-8.328 8.328-21.844 0-30.172-8.328-8.328-21.844-8.328-30.172 0l-94.469 94.469V96.359c0-11.797-9.539-21.336-21.336-21.336-11.781 0-21.336 9.539-21.336 21.336v119.703c0 11.784 9.555 21.329 21.329 21.329zM234.906 269.664c-8.328-8.328-21.844-8.328-30.172 0l-94.469 94.469v-68.188c0-11.797-9.539-21.336-21.336-21.336-11.781 0-21.336 9.539-21.336 21.336v119.703c0 11.781 9.539 21.336 21.336 21.336h119.703c11.781 0 21.336-9.555 21.336-21.336 0-11.797-9.555-21.336-21.336-21.336h-68.188l94.469-94.469c8.328-8.328 8.328-21.844 0-30.172z"/>
+		    </svg>
+		  </button>
         <button class="map-btn" onclick="resetMapZoom()">Reset Zoom</button>
       </div>
     </div>
@@ -762,6 +767,38 @@
 	    }
 	  }
 	});
+
+	  function toggleMapFullscreen() {
+		  const mapElement = document.getElementById('map');
+		  
+		  if (!document.fullscreenElement) {
+		    if (mapElement.requestFullscreen) {
+		      mapElement.requestFullscreen();
+		    } else if (mapElement.webkitRequestFullscreen) { /* Safari */
+		      mapElement.webkitRequestFullscreen();
+		    } else if (mapElement.msRequestFullscreen) { /* IE11 */
+		      mapElement.msRequestFullscreen();
+		    }
+		  } else {
+		    if (document.exitFullscreen) {
+		      document.exitFullscreen();
+		    } else if (document.webkitExitFullscreen) { /* Safari */
+		      document.webkitExitFullscreen();
+		    } else if (document.msExitFullscreen) { /* IE11 */
+		      document.msExitFullscreen();
+		    }
+		  }
+		}
+		
+		// Sync CSS layout class when browser fullscreen state changes
+		document.addEventListener('fullscreenchange', () => {
+		  const mapElement = document.getElementById('map');
+		  if (document.fullscreenElement) {
+		    mapElement.classList.add('fullscreen');
+		  } else {
+		    mapElement.classList.remove('fullscreen');
+		  }
+		});
 	
 	  function resetMapZoom() {
 	    scale = 1;
